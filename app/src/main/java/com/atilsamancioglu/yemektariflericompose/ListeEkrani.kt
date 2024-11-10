@@ -18,29 +18,31 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.atilsamancioglu.yemektariflericompose.model.Yemek
 import com.atilsamancioglu.yemektariflericompose.ui.theme.YemekTarifleriComposeTheme
+import com.google.gson.Gson
 
 @Composable
-fun YemekListesi(yemekler : List<Yemek>) {
+fun YemekListesi(yemekler : List<Yemek>, navController: NavController) {
     LazyColumn(contentPadding = PaddingValues(5.dp),
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
         ) {
         items(yemekler) {
-            YemekRow(yemek = it)
+            YemekRow(yemek = it, navController = navController)
         }
     }
 }
 
 @Composable
-fun YemekRow(yemek: Yemek) {
+fun YemekRow(yemek: Yemek, navController: NavController) {
     Column(modifier= Modifier
         .fillMaxWidth()
         .background(color = MaterialTheme.colorScheme.background)
         .clickable {
-            //navigasyon
+            navController.navigate("detay_ekrani/${Gson().toJson(yemek)}")
         }
     ) {
         Text(text=yemek.isim,
